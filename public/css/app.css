@@ -1,0 +1,182 @@
+@import url(https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap);@import url(https://fonts.googleapis.com/css?family=Raleway:700&display=swap);@font-face {
+  font-family: "Dancing Script";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/dancingscript/v13/If2cXTr6YS-zF4S-kcSWSVi_sxjsohD9F50Ruu7B1i03Sup8.woff2) format("woff2");
+  unicode-range: U+0000-00FF, U+2000-206F;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 20%, transparent 21%), radial-gradient(rgba(255, 255, 255, 0.15) 20%, transparent 21%);
+  background-color: #a3152c;
+  background-position: 0 0, 3.5em 3.5em;
+  background-size: 7em 7em;
+  display: flex;
+  justify-content: center;
+}
+
+a {
+  text-decoration: none;
+  color: #821123;
+  padding-right: 0.9em;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a::after {
+  content: url("data:image/svg+xml,%3Csvg class='icon' xmlns='http://www.w3.org/2000/svg' width='0.9em' height='0.9em' viewBox='0 0 21 21'%3E%3Cpath d='M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z' fill='%23821123'/%3E%3C/svg%3E");
+  position: absolute;
+  margin-left: 0.1em;
+}
+
+p {
+  margin: 0;
+}
+
+p + p {
+  margin-top: 0.4em;
+}
+
+ol,
+ul {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+  padding-left: 1.25em;
+  list-style-type: circle;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Raleway", "Nunito", sans-serif, sans-serif;
+  -webkit-hyphens: none;
+      -ms-hyphens: none;
+          hyphens: none;
+}
+
+body {
+  overflow: auto;
+  max-width: 40em;
+  margin: 0.5em;
+  font-size: 1.25em;
+  font-family: "Nunito", sans-serif;
+  line-height: 1.4;
+  background: #efe8de;
+  box-shadow: 0 0 5em rgba(0, 0, 0, 0.5);
+  border-radius: 1em;
+  border: 0.1em solid #934a58;
+}
+
+body p {
+  -webkit-hyphens: auto;
+      -ms-hyphens: auto;
+          hyphens: auto;
+}
+
+header {
+  padding: 1em;
+  color: #efe8de;
+  background: #a3152c;
+  border-radius: 0.9em 0.9em 0 0;
+}
+
+header h1,
+header h2 {
+  margin: 0;
+  padding: 0;
+  color: #efe8de;
+}
+
+header h1 {
+  font-size: 225%;
+  font-family: "Dancing Script", cursive, "Nunito", sans-serif;
+  line-height: 1;
+}
+
+header h2 {
+  font-size: 100%;
+}
+
+header a {
+  padding-right: 0;
+}
+
+header a:hover {
+  text-decoration: none;
+}
+
+header a::after {
+  content: none;
+}
+
+main {
+  padding: 1em;
+}
+
+main h1,
+main h2,
+main h3 {
+  margin-top: 1em;
+  margin-bottom: 0.4em;
+  border-radius: 0.3em;
+  color: #821123;
+}
+
+main h1,
+main h2 {
+  background: #a3152c;
+  color: #efe8de;
+}
+
+main h2,
+main h3 {
+  width: -moz-fit-content;
+  width: -webkit-fit-content;
+  width: fit-content;
+}
+
+main h1 {
+  font-size: 110%;
+  margin-top: 0;
+  padding: 0.75em;
+}
+
+main * + h1 {
+  margin-top: 1.2em;
+}
+
+main h2 {
+  font-size: 105%;
+  padding: 0.25em 0.5em;
+}
+
+main h3 {
+  font-size: 100%;
+  padding: 0 0.25em;
+  border: 0.15em solid #a3152c;
+}
+
+footer {
+  padding: 1em;
+  border-radius: 0 0 0.9em 0.9em;
+  background-color: #a3152c;
+}
+
+footer a {
+  color: #efe8de;
+  padding-right: 0.9em;
+}
+
+footer a::after {
+  content: url("data:image/svg+xml,%3Csvg class='icon' xmlns='http://www.w3.org/2000/svg' width='0.9em' height='0.9em' viewBox='0 0 21 21'%3E%3Cpath d='M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z' fill='%23EFE8DE'/%3E%3C/svg%3E");
+  position: absolute;
+  margin-left: 0.1em;
+}
+

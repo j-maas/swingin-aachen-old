@@ -1,1 +1,213 @@
-//
+// The following function is taken from https://gist.github.com/certainlyakey/e9c0d8f5c87ff47e3d5b
+@function encode-color($string) {
+    @if type-of($string) == 'color' {
+        $hex: str-slice(ie-hex-str($string), 4);
+        $string: unquote("#{$hex}");
+    }
+    $string: '%23' + $string;
+    @return $string;
+}
+
+@mixin link_icon($color) {
+    content: url("data:image/svg+xml,%3Csvg class='icon' xmlns='http://www.w3.org/2000/svg' width='0.9em' height='0.9em' viewBox='0 0 21 21'%3E%3Cpath d='M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z' fill='#{encode-color($color)}'/%3E%3C/svg%3E");
+}
+
+@mixin link_icon_style($color) {
+    color: $color;
+    padding-right: 0.9em;
+
+    &::after {
+        @include link_icon($color);
+        position: absolute;
+        margin-left: 0.1em;
+    }
+}
+
+$color_primary: #a3152c;
+$color_accent: #390040;
+
+$color_background_accent: #e9e3ef;
+$color_background_bright: #efe8de;
+
+$color_text_primary: scale-color($color_primary, $lightness: -20%);
+$color_text_bright: $color_background_bright;
+
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700&display=swap');
+$font_body: 'Nunito', sans-serif;
+@import url('https://fonts.googleapis.com/css?family=Raleway:700&display=swap');
+$font_heading: 'Raleway', $font_body, sans-serif;
+
+@font-face {
+    font-family: 'Dancing Script';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/dancingscript/v13/If2cXTr6YS-zF4S-kcSWSVi_sxjsohD9F50Ruu7B1i03Sup8.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+2000-206F
+}
+
+$font_logo: 'Dancing Script', cursive, $font_body;
+
+@mixin background_polka() {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.05) 20%, transparent 21%), radial-gradient(rgba(255, 255, 255, 0.15) 20%, transparent 21%);
+    background-color: $color_primary;
+    $size: 7em;
+    background-position: 0 0, ($size/2) ($size/2);
+    background-size: $size $size;
+}
+
+$body_border_radius: 0.1em;
+$body_child_border_radius: 1em - $body_border_radius;
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    @include background_polka;
+    display: flex;
+    justify-content: center;
+}
+
+a {
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+
+    @include link_icon_style($color_text_primary);
+}
+
+p {
+    margin: 0;
+
+    & + p {
+        margin-top: 0.4em;
+    }
+}
+
+ol, ul {
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+    padding-left: 1.25em;
+    list-style-type: circle;
+}
+
+h1, h2, h3 {
+    font-family: $font_heading;
+    hyphens: none;
+}
+
+body {
+    overflow: auto;
+    max-width: 40em;
+    margin: 0.5em;
+
+    font-size: 1.25em;
+    font-family: $font_body;
+    line-height: 1.4;
+
+    background: $color_background_bright;
+    box-shadow: 0 0 5em rgba(0, 0, 0, 0.5);
+
+    border-radius: 1em;
+    border: 0.1em solid #934a58;
+
+    p {
+        hyphens: auto;
+    }
+}
+
+header {
+    padding: 1em;
+
+    color: $color_text_bright;
+    background: $color_primary;
+    border-radius: $body_child_border_radius $body_child_border_radius 0 0;
+
+    h1, h2 {
+        margin: 0;
+        padding: 0;
+        color: $color_text_bright;
+    }
+
+    h1 {
+        font-size: 225%;
+        font-family: $font_logo;
+        line-height: 1;
+    }
+
+    h2 {
+        font-size: 100%;
+    }
+
+    a {
+        padding-right: 0;
+
+        &:hover {
+            text-decoration: none;
+        }
+
+        &::after {
+            content: none;
+        }
+    }
+}
+
+main {
+    padding: 1em;
+
+    h1, h2, h3 {
+        margin-top: 1em;
+        margin-bottom: 0.4em;
+
+        border-radius: 0.3em;
+        color: $color_text_primary;
+    }
+
+    h1, h2 {
+        background: $color_primary;
+        color: $color_text_bright;
+    }
+
+    h2, h3 {
+        width: -moz-fit-content;
+        width: fit-content;
+    }
+
+    h1 {
+        font-size: 110%;
+        margin-top: 0;
+
+        padding: 0.75em;
+    }
+
+    * + h1 {
+        margin-top: 1.2em;
+    }
+
+    h2 {
+        font-size: 105%;
+
+        padding: 0.25em 0.5em;
+    }
+
+    h3 {
+        font-size: 100%;
+
+        padding: 0 0.25em;
+        border: 0.15em solid $color_primary;
+    }
+}
+
+footer {
+    padding: 1em;
+    border-radius: 0 0 $body_child_border_radius $body_child_border_radius;
+
+    background-color: $color_primary;
+
+    a {
+        @include link_icon_style($color_text_bright);
+    }
+}
