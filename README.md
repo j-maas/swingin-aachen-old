@@ -18,7 +18,8 @@
     3. Adapt the `DB_*` settings in `.env` to allow a connection to that database table.
 2. Migrate the database: `php artisan migrate`
 3. Seed the database with initial data: `php artisan db:seed`
-4. Install the dependencies for the asset pipeline: `npm install`
+4. Add an admin user: `php artisan orchid:admin`
+5. Install the dependencies for the asset pipeline: `npm install`
 
 ### Running
 ```bash
