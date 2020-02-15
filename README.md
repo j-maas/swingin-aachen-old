@@ -34,4 +34,4 @@ npm run watch
 
 ## Documentation
 - [Laravel](https://laravel.com/docs/6.x)
-
+- [Orchid](https://orchid.software/en/docs) (for the admin interface)
