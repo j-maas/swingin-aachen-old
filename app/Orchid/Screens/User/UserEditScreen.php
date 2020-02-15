@@ -9,12 +9,15 @@ use App\Orchid\Layouts\User\UserEditLayout;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Orchid\Access\UserSwitch;
+use Orchid\Platform\Models\Role;
 use Orchid\Platform\Models\User;
 use Orchid\Screen\Action;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\DropDown;
 use Orchid\Screen\Actions\ModalToggle;
+use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\Password;
+use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Layout;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Toast;
@@ -41,6 +44,11 @@ class UserEditScreen extends Screen
     public $permission = 'platform.systems.users';
 
     /**
+     * @var bool
+     */
+    private $exist = false;
+
+    /**
      * Query data.
      *
      * @param User $user
@@ -49,10 +57,12 @@ class UserEditScreen extends Screen
      */
     public function query(User $user): array
     {
+        $this->exist = $user->exists;
+
         $user->load(['roles']);
 
         return [
-            'user'       => $user,
+            'user' => $user,
             'permission' => $user->getStatusPermission(),
         ];
     }
@@ -64,43 +74,77 @@ class UserEditScreen extends Screen
      */
     public function commandBar(): array
     {
-        return [
-
-            DropDown::make(__('Settings'))
-                ->icon('icon-open')
-                ->list([
-                    Button::make(__('Login as user'))
-                        ->icon('icon-login')
-                        ->method('loginAs'),
-
-                    ModalToggle::make(__('Change Password'))
-                        ->icon('icon-lock-open')
-                        ->method('changePassword')
-                        ->modal('password')
-                        ->title(__('Change Password')),
-
-                ]),
-
+        $modal = $this->exist
+            ? [
+                DropDown::make(__('Settings'))
+                    ->icon('icon-open')
+                    ->list([
+                        Button::make(__('Login as user'))
+                            ->icon('icon-login')
+                            ->method('loginAs'),
+                        ModalToggle::make(__('Change Password'))
+                            ->icon('icon-lock-open')
+                            ->method('changePassword')
+                            ->modal('password')
+                            ->title(__('Change Password')),
+                    ]),
+            ]
+            : [];
+        $save = [
             Button::make(__('Save'))
                 ->icon('icon-check')
                 ->method('save'),
-
-            Button::make(__('Remove'))
-                ->icon('icon-trash')
-                ->confirm('Are you sure you want to delete the user?')
-                ->method('remove'),
         ];
+        $remove = $this->exist
+            ? [
+                Button::make(__('Remove'))
+                    ->icon('icon-trash')
+                    ->confirm('Are you sure you want to delete the user?')
+                    ->method('remove'),
+            ]
+            : [];
+        return array_merge($modal, $save, $remove);
     }
 
     /**
+     * @return Layout[]
      * @throws \Throwable
      *
-     * @return Layout[]
      */
     public function layout(): array
     {
         return [
-            UserEditLayout::class,
+            Layout::rows(array_merge(
+                [
+                    Input::make('user.name')
+                        ->type('text')
+                        ->max(255)
+                        ->required()
+                        ->title(__('Name'))
+                        ->placeholder(__('Name')),
+
+                    Input::make('user.email')
+                        ->type('email')
+                        ->required()
+                        ->title(__('Email'))
+                        ->placeholder(__('Email')),
+                ],
+                !$this->exist
+                    ? [
+                    Password::make('user.password')
+                        ->placeholder(__('Enter your password'))
+                        ->required()
+                        ->title(__('Password')),
+                ]
+                    : [],
+                [
+                    Select::make('user.roles.')
+                        ->fromModel(Role::class, 'name')
+                        ->multiple()
+                        ->title(__('Name role'))
+                        ->help('Specify which groups this account should belong to'),
+                ]
+            )),
 
             Layout::rubbers([
                 RolePermissionLayout::class,
@@ -118,7 +162,7 @@ class UserEditScreen extends Screen
     }
 
     /**
-     * @param User    $user
+     * @param User $user
      * @param Request $request
      *
      * @return \Illuminate\Http\RedirectResponse
@@ -148,9 +192,9 @@ class UserEditScreen extends Screen
     /**
      * @param User $user
      *
+     * @return \Illuminate\Http\RedirectResponse
      * @throws \Exception
      *
-     * @return \Illuminate\Http\RedirectResponse
      */
     public function remove(User $user)
     {
@@ -174,7 +218,7 @@ class UserEditScreen extends Screen
     }
 
     /**
-     * @param User    $user
+     * @param User $user
      * @param Request $request
      *
      * @return \Illuminate\Http\RedirectResponse

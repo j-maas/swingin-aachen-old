@@ -27,7 +27,7 @@ return [
     |
     */
 
-    'prefix' => env('DASHBOARD_PREFIX', '/dashboard'),
+    'prefix' => env('DASHBOARD_PREFIX', '/admin'),
 
     /*
     |--------------------------------------------------------------------------

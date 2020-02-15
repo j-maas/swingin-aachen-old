@@ -79,7 +79,6 @@ class UserListLayout extends Table
 
                             Button::make(__('Delete'))
                                 ->method('remove')
-                                ->confirm(__('Are you sure you want to delete the user?'))
                                 ->parameters([
                                     'id' => $user->id,
                                 ])
